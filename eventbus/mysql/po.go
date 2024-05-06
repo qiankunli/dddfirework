@@ -161,9 +161,8 @@ CREATE TABLE `ddd_domain_service_event` (
 
 // ServiceEventPO 记录service对event的处理情况
 type ServiceEventPO struct {
-	ID             int64     `gorm:"primaryKey;autoIncrement"`
-	Service        string    `gorm:"type:varchar(30);column:service;uniqueIndex:idx_service_event_id;index:idx_service_status_next_time;"`
-	EventID        int64     `gorm:"column:event_id;uniqueIndex:idx_service_event_id;not null"`
+	Service        string    `gorm:"type:varchar(30);column:service;primaryKey;index:idx_service_status_next_time;"`
+	EventID        int64     `gorm:"column:event_id;primaryKey;not null"`
 	RetryCount     int       `gorm:"type:int(11);column:retry_count"`                                                    // 重试次数
 	Status         int8      `gorm:"column:status;index:idx_service_status_next_time;"`                                  // service event状态
 	FailedMessage  string    `gorm:"type:text;column:failed_message"`                                                    // 失败详情

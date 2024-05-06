@@ -334,7 +334,7 @@ func (e *EventBus) getScanEvents() ([]*EventPO, error) {
 			return nil, err
 		}
 	}
-	if lastServiceEvent.ID > 0 {
+	if lastServiceEvent.EventID > 0 {
 		eventOffset = lastServiceEvent.EventID
 	}
 	eventPOs := make([]*EventPO, 0)
@@ -443,7 +443,7 @@ func (e *EventBus) checkPrecedingEvent(tx *gorm.DB, spo *ServiceEventPO, eventPO
 		}
 	}
 	// 找不到precedingServiceEvent，则说明前序event 还未被处理
-	if precedingServiceEvent.ID == 0 {
+	if precedingServiceEvent.EventID == 0 {
 		return ErrPrecedingEventNotReady
 	}
 	if eventPO.Event.SendType == dddfirework.SendTypeFIFO {
@@ -494,7 +494,7 @@ func (e *EventBus) handleEvent(ctx context.Context, po *EventPO) error {
 			}
 		}
 		// 如果service_event 已存在，确认service_event 还未被执行
-		if spo.ID > 0 {
+		if spo.EventID > 0 {
 			if spo.Status != int8(ServiceEventStatusInit) {
 				e.logger.V(logger.LevelInfo).Info("current service_event'status it not init, ignore", "event_id", spo.EventID)
 				return nil
